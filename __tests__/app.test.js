@@ -1,7 +1,6 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
-const request = require('supertest');
-const app = require('../lib/app');
+const ProfileService = require('../lib/services/ProfileService');
 
 describe('quotable routes', () => {
   beforeEach(() => {
@@ -13,11 +12,9 @@ describe('quotable routes', () => {
   });
 
   it('should create a new profile with a random quote', async () => {
-    const res = await request(app)
-      .post('/api/v1/profiles')
-      .send({ name: 'Test User' });
+    const res = await ProfileService.create({ name: 'Test User' });
 
-    expect(res.body).toEqual({
+    expect(res).toEqual({
       id: expect.any(String),
       name: 'Test User',
       quote: expect.any(String),
